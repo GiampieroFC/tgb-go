@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"math"
-	"os"
 	"regexp"
 	"strconv"
 	"strings"
@@ -73,7 +72,7 @@ func dias(texto string, formato string) string {
 }
 
 func main() {
-	bot, err := tgbotapi.NewBotAPI(os.Getenv(RAILWAY_TOKEN))
+	bot, err := tgbotapi.NewBotAPI("5974989101:AAF14cWmFbz4O4TLAkrnqmTDYs3cKJEt8yU")
 	if err != nil {
 		log.Panic(err)
 	}
