@@ -101,6 +101,8 @@ func main() {
 		msg := tgbotapi.NewMessage(update.Message.Chat.ID, "")
 
 		switch update.Message.Command() {
+		case "start":
+			msg.Text = help
 		case "help":
 			msg.Text = help
 		case "fecha":
