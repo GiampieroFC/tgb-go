@@ -1,4 +1,4 @@
-module github.com/GiampieroFC/contadorDias
+module github.com/GiampieroFC/calculadora_dias
 
 go 1.19
 
