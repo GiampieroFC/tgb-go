@@ -73,7 +73,7 @@ func dias(texto string, formato string) string {
 }
 
 func main() {
-	bot, err := tgbotapi.NewBotAPI(os.Getenv(TOKEN_TELEGRAM))
+	bot, err := tgbotapi.NewBotAPI(os.Getenv(RAILWAY_TOKEN))
 	if err != nil {
 		log.Panic(err)
 	}
