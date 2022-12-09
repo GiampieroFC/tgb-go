@@ -73,7 +73,7 @@ func dias(texto string, formato string) string {
 
 func main() {
 
-	TOKEN := "5653661791:AAFuSHacevEgPMhhqsayDCj4Yt1rNOWJL9U"
+	TOKEN := "5974989101:AAF14cWmFbz4O4TLAkrnqmTDYs3cKJEt8yU"
 
 	bot, err := tgbotapi.NewBotAPI(TOKEN)
 	if err != nil {
