@@ -73,7 +73,7 @@ func dias(texto string, formato string) string {
 
 func main() {
 
-	TOKEN := "5974989101:AAF14cWmFbz4O4TLAkrnqmTDYs3cKJEt8yU"
+	TOKEN := "5653661791:AAFuSHacevEgPMhhqsayDCj4Yt1rNOWJL9U"
 
 	bot, err := tgbotapi.NewBotAPI(TOKEN)
 	if err != nil {
@@ -86,7 +86,7 @@ func main() {
 
 	formato := "2006-01-02"
 
-	help := "  Hola 🤖 puedo decirte la fecha después de cierta cantidad de días.\n\nPor ejemplo, si hoy fuese 2022-12-07 y quisieras saber la fecha después de 180 días.\nEscribe lo siguiente👇🏽:\n\n/fecha 2022-12-07 + 180\nTambién puedes restar los días:\n/fecha 2022-12-07 - 180\n\n🤖 Y te diré:\n\nLa nueva fecha es 2023-06-05\no si has restado...\nLa nueva fecha es 2022-06-10\n\nSi quieres saber cuántos días han pasado entre dos fechas, escribe el comando /dias y luego dos fechas con el siguiente formato YYYY-MM-dd separadas por : . Por ejemplo:\n\n/dias 2023-06-05 : 1969-07-21\n\n🤖 Y te responderé:\n\nHay un diferencia de 19677 días\n\n❗❗Es importante colocar bien los espacios y respetar el formato de la fecha YYYY-MM-dd.❗❗"
+	help := "Hola 🤖 te digo la fecha después de ❔ días.\n\nPor ejemplo, si hoy fuese 2022-12-07 y quisieras saber la fecha después de 180 días.\nEscribe lo siguiente👇🏽:\n\n/fecha 2022-12-07 + 180\nTambién puedes restar los días:\n/fecha 2022-12-07 - 180\n\n🤖 Y te diré:\n\nLa nueva fecha es 2023-06-05\nO si has restado...\nLa nueva fecha es 2022-06-10\n\nTambién te digo cuántos días han pasado entre dos fechas, escribe el comando /dias y luego dos fechas con el siguiente formato YYYY-MM-dd separadas por :\t\t\t.\nPor ejemplo:\n\n/dias 2023-06-05 : 1969-07-21\n\n🤖 Y te responderé:\n\nHay un diferencia de 19677 días\n\n❗❗Es importante colocar bien los espacios y respetar el formato de la fecha YYYY-MM-dd.❗❗"
 
 	// error := "🤔 Algo salió mal. 👨🏽‍🏫 Recuerda que es importante colocar bien los espacios y respetar el formato de la fecha YYYY-MM-dd. "
 
