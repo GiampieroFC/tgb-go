@@ -2,9 +2,11 @@ package main
 
 import (
 	// "errors"
+	"encoding/json"
 	"fmt"
 	"log"
 	"math"
+	"os"
 	"regexp"
 	"strconv"
 	"strings"
@@ -13,7 +15,32 @@ import (
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 )
 
-func fecha(texto string, formato string) string {
+type Config struct {
+	Token         string `json:"token"`
+	Formato_fecha string `json:"formato_fecha"`
+	Msg_start     string `json:"msg_start"`
+	Msg_error     string `json:"msg_error"`
+	Msg_help      string `json:"msg_help"`
+	Msg_default   string `json:"msg_default"`
+	Desarrollador string `json:"desarrollador"`
+}
+
+var config Config
+
+func loadConfig() {
+	fmt.Println("leyendo el archivo de configuración...")
+	b, err := os.ReadFile("./config.json")
+	if err != nil {
+		log.Fatal("hubo un problema al leer el archivo", err)
+	}
+	err = json.Unmarshal(b, &config)
+	if err != nil {
+		log.Fatal("hubo un problema al convertir el archivo", err)
+	}
+	fmt.Println("archivo de configuración leído...")
+}
+
+func fecha(texto string, formato string, wrong string) string {
 	patron := `\/fecha\s\d{4}-(0[0-9]|1[0-2])-([0-2][0-9]|3[01])\s[+-]\s\d{1,6}`
 	bool, _ := regexp.MatchString(patron, texto)
 
@@ -39,26 +66,22 @@ func fecha(texto string, formato string) string {
 			return newT
 		}
 	}
-
-	return "🤔 Algo salió mal. 👨🏽‍🏫 Recuerda que es importante colocar bien los espacios y respetar el formato de la fecha YYYY-MM-dd."
+	return wrong
 }
 
-func dias(texto string, formato string) string {
+func dias(texto string, formato string, wrong string) string {
 	patron := `\/dias\s\d{4}-(0[0-9]|1[0-2])-([0-2][0-9]|3[1])\s:\s\d{4}-(0[0-9]|1[0-2])-([0-2][0-9]|3[01])`
 	bool, _ := regexp.MatchString(patron, texto)
-
 	if bool {
 		mensaje := strings.Split(texto, " ")
 		fecha1 := mensaje[1]
 		fecha2 := mensaje[3]
-
 		f1, err1 := time.Parse(formato, fecha1)
 		f2, err2 := time.Parse(formato, fecha2)
 		if err1 != nil || err2 != nil {
 			return "🗓 Revisa las fechas..."
 		}
 		dias := math.Ceil(f2.Sub(f1).Hours()) / 24
-
 		if dias > -106500 && dias < 106500 {
 			flo := fmt.Sprintf("%g", math.Ceil(f2.Sub(f1).Hours()/24))
 			return "Hay una diferencia de " + flo + " días."
@@ -67,29 +90,18 @@ func dias(texto string, formato string) string {
 			return "🤯 Hay más de 106500 días de diferencia... No puedo contar tanto. 😥"
 		}
 	}
-
-	return "🤔 Algo salió mal. 👨🏽‍🏫 Recuerda que es importante colocar bien los espacios y respetar el formato de la fecha YYYY-MM-dd."
+	return wrong
 }
 
 func main() {
-
-	TOKEN := "5974989101:AAF14cWmFbz4O4TLAkrnqmTDYs3cKJEt8yU"
-
-	bot, err := tgbotapi.NewBotAPI(TOKEN)
+	loadConfig()
+	bot, err := tgbotapi.NewBotAPI(config.Token)
 	if err != nil {
 		log.Panic(err)
 	}
-
 	updateConfig := tgbotapi.NewUpdate(0)
 	updateConfig.Timeout = 60
 	updates := bot.GetUpdatesChan(updateConfig)
-
-	formato := "2006-01-02"
-
-	help := "Hola 🤖 te digo la fecha después de ❔ días.\n\nPor ejemplo, si hoy fuese 2022-12-07 y quisieras saber la fecha después de 180 días.\nEscribe lo siguiente👇🏽:\n\n/fecha 2022-12-07 + 180\nTambién puedes restar los días:\n/fecha 2022-12-07 - 180\n\n🤖 Y te diré:\n\nLa nueva fecha es 2023-06-05\nO si has restado...\nLa nueva fecha es 2022-06-10\n\nTambién te digo cuántos días han pasado entre dos fechas, escribe el comando /dias y luego dos fechas con el siguiente formato YYYY-MM-dd separadas por :\t\t\t.\nPor ejemplo:\n\n/dias 2023-06-05 : 1969-07-21\n\n🤖 Y te responderé:\n\nHay un diferencia de 19677 días\n\n❗❗Es importante colocar bien los espacios y respetar el formato de la fecha YYYY-MM-dd.❗❗"
-
-	// error := "🤔 Algo salió mal. 👨🏽‍🏫 Recuerda que es importante colocar bien los espacios y respetar el formato de la fecha YYYY-MM-dd. "
-
 	for update := range updates {
 		if update.Message == nil {
 			continue
@@ -97,27 +109,22 @@ func main() {
 		if !update.Message.IsCommand() {
 			continue
 		}
-
 		msg := tgbotapi.NewMessage(update.Message.Chat.ID, "")
-
 		switch update.Message.Command() {
 		case "start":
-			msg.Text = help
+			msg.Text = config.Msg_start + config.Desarrollador
 		case "help":
-			msg.Text = help
+			msg.Text = config.Msg_help + config.Desarrollador
 		case "fecha":
-			msg.Text = fecha(update.Message.Text, formato)
+			msg.Text = fecha(update.Message.Text, config.Formato_fecha, config.Msg_error)
 		case "dias":
-			msg.Text = dias(update.Message.Text, formato)
+			msg.Text = dias(update.Message.Text, config.Formato_fecha, config.Msg_error)
 		default:
-			msg.Text = "🥴No conozco ese comando...\n👨🏽‍🏫 Los comandos son:\n/help\n/fecha\n/dias"
+			msg.Text = config.Msg_default
 		}
-
 		if _, err := bot.Send(msg); err != nil {
 			log.Panic(err)
 		}
-
 	}
-
 	bot.Debug = true
 }
