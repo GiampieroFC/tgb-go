@@ -1,7 +1,6 @@
 package main
 
 import (
-	// "errors"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -29,7 +28,7 @@ var config Config
 
 func loadConfig() {
 	fmt.Println("leyendo el archivo de configuración...")
-	b, err := os.ReadFile("./config.json")
+	b, err := os.ReadFile("config.json")
 	if err != nil {
 		log.Fatal("hubo un problema al leer el archivo", err)
 	}

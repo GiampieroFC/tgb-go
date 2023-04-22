@@ -5,5 +5,5 @@
     "msg_error": "🤔 Algo salió mal. 👨🏽‍🏫 Recuerda que es importante colocar bien los espacios y respetar el formato de la fecha YYYY-MM-dd.",
     "msg_help": "👨🏽‍💻 Comando /fecha:\n Para saber la fecha después de x días. Si escribes:\n/fecha 2022-12-07 + 180\nTe diré:\nLa nueva fecha es 2023-06-05\n\n👉🏽 También puedes restar los días:\n/fecha 2022-12-07 - 180\nY te diré:\nLa nueva fecha es 2022-06-10\n\n👨🏽‍💻 Comando /dias:\nPara saber cuántos días han pasado entre dos fechas. Por ejemplo:\n/dias 2023-06-05 : 1969-07-21\nY te responderé:\nHay un diferencia de 19677 días\n\n☝🏽 Respeta el formato YYYY-MM-dd y los espacios.",
     "msg_default": "🥴No conozco ese comando...\n👨🏽‍🏫 Los comandos que entiendo son:\n/help\n/fecha\n/dias",
-    "desarrollador": "\n\nDesarrollador: https://t.me/GiampieroFC"
+    "desarrollador": "\n\n¿Tienes preguntas?: https://t.me/GiampieroFC"
 }
